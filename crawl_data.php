@@ -10,11 +10,11 @@ include("simplehtmldom_1_5/simple_html_dom.php");
 
 function crawl_data($link) {
     $html = file_get_html($link);
-    $link_company = get_link_company($html);
+//    $link_company = get_link_company($html);
 //    echo $link_company;
 //    get_data_company($link_company);
-//    $link_job =  get_link_job($html);
-//    echo $link_job;
+    $link_job =  get_link_job($html);
+    echo $link_job;
 //    get_data_job($link_job);
 }
 
@@ -26,8 +26,7 @@ function get_link_company($link) {
         foreach ($link->find('#container div.top-companies div.row div.col-md-4') as $company) {
             $link_suffix = $company->find('a', 0)->href;
             $company_link = $link.''.$link_suffix;
-            echo $company_link;
-//            return $company_link;
+            return $company_link;
         }
     }
 }
@@ -56,6 +55,10 @@ function get_data_company($link) {
 function get_link_job($link) {
     if (strpos($link, 'topitworks') !== false) {
         return $link->find('.itw_page .navbar .hidden-xs ul.nav li.dropdown ul.dropdown-menu li[1] a', 0)->href;
+    } elseif (strpos($link, 'itviec') !== false) {
+        $link_suffix = $link->find('#pageMenuToggle ul li[2] a', 0)->href;
+        $job_link = $link.''.$link_suffix;
+        return $job_link;
     }
 }
 

@@ -12,8 +12,8 @@ include("mysqli.php");
 //create_tables($conn);
 
 //crawl_data('https://www.topitworks.com/vi');
-//crawl_data('https://itviec.com/');
-readfile("template/index.html")
+crawl_data('https://itviec.com/');
+//readfile("template/index.html")
 
 //close_connection($conn);
 ?>
