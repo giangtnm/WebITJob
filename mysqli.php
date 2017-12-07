@@ -33,11 +33,10 @@ function create_tables($conn)
 $create_tables = "CREATE TABLE IF NOT EXISTS company (
   id SERIAL UNIQUE NOT NULL PRIMARY KEY,
   idJobs INT ARRAY,
-  company_name TEXT UNIQUE ,
+  company_name TEXT UNIQUE,
   address TEXT,
-  country TEXT,
-  logo TEXT,
-  urlC TEXT
+  company_logo_link TEXT,
+  company_link TEXT
 );
 
 CREATE TABLE IF NOT EXISTS job (
