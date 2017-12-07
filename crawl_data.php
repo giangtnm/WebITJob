@@ -65,7 +65,7 @@ VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_li
         $company_name = $company->find(
             'div#container div.company-content div.company-page div.headers div.name-and-info h1.title', 0)->innertext;
         $company_location = $company->find(
-            'div#container div.company-content div.company-page div.headers div.name-and-info span', 0)->innertext;
+            'div#container div.company-content div.company-page div.headers div.name-and-info span', 0)->plaintext;
         $company_link = $link;
 
         $conn = new mysqli('localhost', 'root', '','WebITJob');
@@ -145,7 +145,8 @@ VALUES ('$job_name', '$job_location', '$job_salary', '$job_date', '$job_company'
             $job_location = $job_location_street.''.$job_location_city;
             $job_description = '';
             foreach ($job->find('div.job_content div.job__description div.job-bottom div.tag-list a') as $details_job) {
-                $job_description = $job_description.' '.$details_job->innertext.'|';
+                $detail = $details_job->find('span', 0)->innertext;
+                $job_description = $job_description.' '.$detail.'|';
             }
 
             $conn = new mysqli('localhost', 'root', '','WebITJob');
@@ -153,8 +154,21 @@ VALUES ('$job_name', '$job_location', '$job_salary', '$job_date', '$job_company'
                 die("Connection failed: " . $conn->connect_error);
             }
             echo "Connection successfully";
-            $sql = "INSERT INTO `job` (`title`, `address`, `description`, `company_name`) 
-VALUES ('$job_name', '$job_location', '$job_description', '$job_company')";
+            $sql = "INSERT INTO `job` (`title`, `address`, `company_name`) 
+VALUES ('$job_name', '$job_location', '$job_company')";
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+            $conn->close();
+
+            $conn = new mysqli('localhost', 'root', '','WebITJob');
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            echo "Connection successfully";
+            $sql = "INSERT INTO `programming_language` (`pl_name`) VALUES ('$job_description')";
             if ($conn->query($sql) === TRUE) {
                 echo "New record created successfully";
             } else {

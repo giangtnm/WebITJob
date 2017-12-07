@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `job` (
   `address` TEXT,
   `time_posted` TIME,
   `reason` TEXT,
-  `description` TEXT,
   `skill` TEXT,
   `qualification` TEXT,
   `company_name` TEXT
