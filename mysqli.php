@@ -5,18 +5,12 @@
  * Date: 12/7/17
  * Time: 10:43 AM
  */
-function connect_sql($host, $user, $pass)
-{
+function initial($host, $user, $pass, $dbName) {
     $conn = new mysqli($host, $user, $pass);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     echo "Connection successfully";
-    return $conn;
-}
-
-function create_db($conn, $dbName)
-{
     // Create database if it is not exist
     $create_db = "CREATE DATABASE IF NOT EXISTS $dbName";
     if ($conn->query($create_db) === TRUE) {
@@ -24,68 +18,78 @@ function create_db($conn, $dbName)
     } else {
         echo "Error creating database: " . $conn->error;
     }
-    create_tables($conn);
-}
-
-function create_tables($conn)
-{
-// Create table
-$create_tables = "CREATE TABLE IF NOT EXISTS company (
-  id SERIAL UNIQUE NOT NULL PRIMARY KEY,
-  idJobs INT ARRAY,
-  company_name TEXT UNIQUE,
-  address TEXT,
-  company_logo_link TEXT,
-  company_link TEXT
-);
-
-CREATE TABLE IF NOT EXISTS job (
-  id SERIAL UNIQUE NOT NULL PRIMARY KEY,
-  idPLang INT,
-  title TEXT,
-  salary MONEY,
-  address TEXT,
-  time_posted TIME,
-  reason TEXT,
-  description TEXT,
-  skill TEXT,
-  qualification TEXT,
-  company_name TEXT
-);
-
-CREATE TABLE IF NOT EXISTS programming_language(
-  id SERIAL UNIQUE NOT NULL PRIMARY KEY ,
-  pl_name TEXT
-);
-CREATE TABLE IF NOT EXISTS user_account(
-  id SERIAL UNIQUE NOT NULL PRIMARY KEY ,
-  idPLangs INT ARRAY,
-  idCompanies INT ARRAY,
-  usr_name TEXT,
-  email TEXT,
-  username TEXT,
-  passwd TEXT,
-  address TEXT,
-  phone TEXT
-);";
-
-    if ($conn->query($create_tables) === TRUE) {
-        echo "Tables created successfully";
-    } else {
-        echo "Error creating table: " . $conn->error;
-    }
-}
-
-function insert_data($conn, $table, $column, $data) {
-    $sql = 'INSERT INTO $table ($column) VALUES $data';
-    if ($conn->query($sql) == TRUE) {
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-}
-
-function close_connection($conn) {
     $conn->close();
+//
+//    $conn = new mysqli($host, $user, $pass, $dbName);
+//    $sql = "CREATE TABLE IF NOT EXISTS `company` (
+//`id_company` INT AUTO_INCREMENT PRIMARY KEY,
+//`idJobs` TEXT,
+//`company_name` TEXT,
+//`address` TEXT,
+//`company_logo_link` TEXT,
+//`company_link` TEXT,
+//`company_job` TEXT
+//)";
+//    if ($conn->query($sql) === TRUE) {
+//        echo "Table `company` created successfully";
+//    } else {
+//        echo "Error creating table: " . $conn->error;
+//    }
+//    $conn->close();
+//
+//    $conn = new mysqli($host, $user, $pass, $dbName);
+//
+//$sql="CREATE TABLE IF NOT EXISTS `job` (
+//`id_job` INT AUTO_INCREMENT PRIMARY KEY,
+//`idPLang` TEXT,
+//`title` TEXT,
+//`salary` INT,
+//`address` TEXT,
+//`time_posted` TIME,
+//`reason` TEXT,
+//`description` TEXT,
+//`skill` TEXT,
+//`qualification` TEXT,
+//`company_name` TEXT
+//)";
+//    if ($conn->query($sql) === TRUE) {
+//        echo "Table `job` created successfully";
+//    } else {
+//        echo "Error creating table: " . $conn->error;
+//    }
+//    $conn->close();
+//
+//    $conn = new mysqli($host, $user, $pass, $dbName);
+//
+//    $sql="CREATE TABLE IF NOT EXISTS programming_language (
+//`id_lang` INT AUTO_INCREMENT PRIMARY KEY,
+//`pl_name` TEXT
+//)";
+//    if ($conn->query($sql) === TRUE) {
+//        echo "Table `programming_language` created successfully";
+//    } else {
+//        echo "Error creating table: " . $conn->error;
+//    }
+//    $conn->close();
+//
+//    $conn = new mysqli($host, $user, $pass, $dbName);
+//
+//    $sql="CREATE TABLE IF NOT EXISTS user_account (
+//`id_user` INT AUTO_INCREMENT PRIMARY KEY,
+//`idPLangs` TEXT,
+//`idCompanies` TEXT,
+//`usr_name` TEXT,
+//`email` TEXT,
+//`username` TEXT,
+//`passwd` TEXT,
+//`address` TEXT,
+//`phone` TEXT
+//)";
+//    if ($conn->query($sql) === TRUE) {
+//        echo "Tables `user_account` created successfully";
+//    } else {
+//        echo "Error creating table: " . $conn->error;
+//    }
+//    $conn->close();
 }
 ?>

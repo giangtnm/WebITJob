@@ -29,6 +29,11 @@ function get_link_company($link, $html) {
 }
 
 function get_data_company($link) {
+    $conn = new mysqli('localhost', 'root', '','WebITJob');
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    echo "Connection successfully";
     if (strpos($link, 'topitworks') !== false) {
         $company_list = file_get_html($link);
         foreach ($company_list->find(
@@ -38,11 +43,20 @@ function get_data_company($link) {
             $company_name = $company->find('a div.cp-item-detail div.cp-company-info h3', 0)->innertext;
             $company_location = $company->find('a div.cp-item-detail div.cp-company-info ul li.ellipsis', 0)->innertext;
             $company_job = $company->find('a div.cp-item-detail div.cp-company-info ul li.ellipsis[2]', 0)->innertext;
-            echo $company_link . "<br>";
-            echo $company_name . "<br>";
-            echo $company_logo_link."<br>";
-            echo $company_location . "<br>";
-            echo $company_job . "<br>";
+
+            $conn = new mysqli('localhost', 'root', '','WebITJob');
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            echo "Connection successfully";
+            $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`, `company_job`) 
+VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link', '$company_job')";
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+            $conn->close();
         }
     } elseif (strpos($link, 'itviec') !== false) {
         $company = file_get_html($link);
@@ -53,10 +67,21 @@ function get_data_company($link) {
         $company_location = $company->find(
             'div#container div.company-content div.company-page div.headers div.name-and-info span', 0)->innertext;
         $company_link = $link;
-        echo $company_logo_link . "<br>";
-        echo $company_name . "<br>";
-        echo $company_location . "<br>";
-        echo $company_link . "<br>";
+
+        $conn = new mysqli('localhost', 'root', '','WebITJob');
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        echo "Connection successfully";
+        $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`) 
+VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link')";
+        if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+        $conn->close();
+
         get_data_job($link);
     }
 }
@@ -85,13 +110,20 @@ function get_data_job($link) {
                 'div.hit-content div.row div.col-xs-12 div.row div.col-md-3 div.hit-salary', 0)->innertext;
             $job_date = $job->find(
                 'div.hit-content div.row div.col-xs-12 div.row div.col-md-3 div.hit-date-posting', 0)->innertext;
-            echo $job_list."<br>";
-            echo $job_link."<br>";
-            echo $job_name."<br>";
-            echo $job_company."<br>";
-            echo $job_location."<br>";
-            echo $job_salary."<br>";
-            echo $job_date."<br>";
+
+            $conn = new mysqli('localhost', 'root', '','WebITJob');
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            echo "Connection successfully";
+            $sql = "INSERT INTO `job` (`title`, `address`, `salary`, `time_posted`, `company_name`) 
+VALUES ('$job_name', '$job_location', '$job_salary', '$job_date', '$job_company')";
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+            $conn->close();
         }
     } elseif (strpos($link, 'itviec') !== false) {
         $job_list = file_get_html($link);
@@ -115,11 +147,20 @@ function get_data_job($link) {
             foreach ($job->find('div.job_content div.job__description div.job-bottom div.tag-list a') as $details_job) {
                 $job_description = $job_description.' '.$details_job->innertext.'|';
             }
-            echo $job_name."<br>";
-            echo $job_company."<br>";
-            echo $job_link."<br>";
-            echo $job_location."<br>";
-            echo $job_description."<br>";
+
+            $conn = new mysqli('localhost', 'root', '','WebITJob');
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            echo "Connection successfully";
+            $sql = "INSERT INTO `job` (`title`, `address`, `description`, `company_name`) 
+VALUES ('$job_name', '$job_location', '$job_description', '$job_company')";
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+            $conn->close();
         }
     }
 }
