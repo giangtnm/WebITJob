@@ -11,5 +11,5 @@
     initial($host, $user, $pass, $dbName);
     crawl_data('https://www.topitworks.com/vi');
     crawl_data('https://itviec.com');
-    //readfile("template/index.html");
+    readfile("template/index.html");
 ?>
