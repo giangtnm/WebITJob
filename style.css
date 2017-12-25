@@ -15,3 +15,11 @@
     float: none !important;
     clear: both;
 }
+
+.icon-search{
+    background-image: url(images/icon_search.png);
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    background-size: 100% auto;
+}

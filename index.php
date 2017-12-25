@@ -20,6 +20,7 @@
     <div id="content">
         <?php
             include("config.php");
+            include("header.php");
         ?>
     </div>
     <?php

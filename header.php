@@ -17,7 +17,7 @@
                     <ul class="sf-menu">
                         <form action="search.php" method="post" enctype="multipart/form-data" id="search">
                             <input class="input" name="searchtext" type="text" placeholder="Search...">
-                            <button class="btn" name="search"><i class="glyphicon-search"></i></button>
+                            <button class="btn" name="search"><i class="icon-search"></i></button>
                         </form>
                         <li class="current">
                             <a href="index.php">HOME</a>
