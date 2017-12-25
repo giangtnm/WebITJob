@@ -14,27 +14,6 @@ CREATE TABLE IF NOT EXISTS `job` (
   `title` TEXT,
   `salary` INT,
   `address` TEXT,
-  `time_posted` TIME,
-  `reason` TEXT,
-  `skill` TEXT,
-  `qualification` TEXT,
-  `company_name` TEXT
-);
-
-CREATE TABLE IF NOT EXISTS programming_language (
-  `id_lang` INT AUTO_INCREMENT PRIMARY KEY,
-  `pl_name` TEXT
-);
-
-CREATE TABLE IF NOT EXISTS user_account (
-  `id_user` INT AUTO_INCREMENT PRIMARY KEY,
-  `idPLangs` TEXT,
-  `idCompanies` TEXT,
-  `usr_name` TEXT,
-  `email` TEXT,
-  `username` TEXT,
-  `passwd` TEXT,
-  `address` TEXT,
-  `phone` TEXT
+  `time_posted` TIME
 );
 ALTER TABLE `company` CONVERT TO CHARACTER SET utf8;

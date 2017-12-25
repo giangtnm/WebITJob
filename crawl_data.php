@@ -10,7 +10,7 @@ include("simplehtmldom_1_5/simple_html_dom.php");
 
 function crawl_data($link) {
     $html = file_get_html($link);
-    get_link_company($link, $html);
+//    get_link_company($link, $html);
     get_link_job($link, $html);
 }
 
@@ -96,7 +96,12 @@ function get_link_job($link, $html) {
 function get_data_job($link) {
     if (strpos($link, 'topitworks') !== false) {
         $job_list = file_get_html($link);
-        foreach ($job_list->find('div#hits div.hit') as $job) {
+        foreach ($job_list->find('.container #hits .hit') as $a){
+            echo $a;
+        }
+        foreach ($job_list->find('#hits .hit') as $job) {
+            echo "***********************************";
+            echo $job;
             $job_link = $job->find(
                 'div.hit-content div.row div.col-xs-12 div.row div.job-basic-detail h4.hit-name a', 0)->href;
             $job_name = $job->find(
@@ -156,19 +161,6 @@ VALUES ('$job_name', '$job_location', '$job_salary', '$job_date', '$job_company'
             echo "Connection successfully";
             $sql = "INSERT INTO `job` (`title`, `address`, `company_name`) 
 VALUES ('$job_name', '$job_location', '$job_company')";
-            if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-            $conn->close();
-
-            $conn = new mysqli('localhost', 'root', '','WebITJob');
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            echo "Connection successfully";
-            $sql = "INSERT INTO `programming_language` (`pl_name`) VALUES ('$job_description')";
             if ($conn->query($sql) === TRUE) {
                 echo "New record created successfully";
             } else {
