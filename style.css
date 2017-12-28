@@ -23,3 +23,33 @@
     display: inline-block;
     background-size: 100% auto;
 }
+
+.content{
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    border: 1px solid #000;
+}
+
+.container_12 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 960px;
+}
+
+.grid_12 {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.container_12 .grid_12 {
+    width: 940px;
+}
+
+.content-item{
+    width: 975px;
+    margin-top: 15px;
+}

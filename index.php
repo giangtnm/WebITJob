@@ -1,3 +1,8 @@
+<!--
+Created by PhpStorm.
+User: Giang Thai
+Date: 12/28/2017
+Time: 11:37 AM-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +17,6 @@
         set_time_limit(1000);
         include("crawl_data.php");
         include("mysqli.php");
-
         //    initial($host, $user, $pass, $dbName);
         //    crawl_data('https://www.topitworks.com/vi');
         //    crawl_data('https://itviec.com');
@@ -21,6 +25,7 @@
         <?php
             include("config.php");
             include("header.php");
+            include("content.php");
         ?>
     </div>
     <?php

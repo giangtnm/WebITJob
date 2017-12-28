@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS `company` (
-`id_company` INT AUTO_INCREMENT PRIMARY KEY,
-`idJobs` TEXT,
-`company_name` TEXT,
-`address` TEXT,
-`company_logo_link` TEXT,
-`company_link` TEXT,
-`company_job` TEXT
+  `id_company` INT AUTO_INCREMENT PRIMARY KEY,
+  `idJobs` TEXT,
+  `company_name` TEXT,
+  `address` TEXT,
+  `company_logo_link` TEXT,
+  `company_link` TEXT,
+  `company_job` TEXT
 );
 
 CREATE TABLE IF NOT EXISTS `job` (
