@@ -8,7 +8,7 @@
     $host = 'localhost';
     $user = 'root';
     $pass = '';
-    $dbName = 'WebITJob';
+    $dbName = 'webitjob';
 
     $conn = mysql_connect($host, $user, $pass, $dbName) or die ("Can't connect to database");
     mysql_select_db($dbName, $conn);

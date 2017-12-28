@@ -29,7 +29,7 @@ Time: 11:37 AM-->
         ?>
     </div>
     <?php
-        include("footer.php");
+//        include("footer.php");
     ?>
 </body>
 </html>
