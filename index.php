@@ -6,7 +6,7 @@ Time: 11:37 AM-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebITJob</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,18 +14,21 @@ Time: 11:37 AM-->
 </head>
 <body>
     <?php
-        set_time_limit(1000);
+//        set_time_limit(1000);
         include("crawl_data.php");
         include("mysqli.php");
+        include("cron_craw_data.php");
         //    initial($host, $user, $pass, $dbName);
-        //    crawl_data('https://www.topitworks.com/vi');
-        //    crawl_data('https://itviec.com');
+
     ?>
     <div id="content">
         <?php
             include("config.php");
             include("header.php");
             include("content.php");
+            // cron_crawl();
+            crawl_data('https://www.topitworks.com/vi');
+            crawl_data('https://itviec.com');
         ?>
     </div>
     <?php

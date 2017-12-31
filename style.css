@@ -1,9 +1,33 @@
+#header{
+    background-color: #0e8209;
+}
+
 .input{
     float: left;
     width: 350px;
     margin-left: 8px;
     padding-top: 3px;
+    border: 1;
+    position: relative;
+    background: #fff;
+    height: 30px;
+    text-indent: 10px;
+    font-size: 13px;
+}
+
+.btn{
+    float: right;
+    width: 40px;
+    height: 35px;
     border: 0;
+    background: white;
+    padding: 0;
+}
+
+#btn-search{
+    margin-top: -4px;
+    margin-left: 517px;
+    padding-top: 3px;
     position: relative;
     background: #fff;
     height: 30px;
@@ -54,8 +78,27 @@
     margin-top: 15px;
 }
 
+.content{
+    border: 0 !important;
+}
+
 .company-detail{
+    border: 1px;
+}
+
+#section3{
+    margin-left: 20px;
     width: 50%;
     float: left;
-    margin-left: 20px;
+}
+
+#section1{
+    position: absolute;
+    left: 50%;
+    width: 50%;
+    float: right;
+}
+.job-detail{
+    margin-right: 20px;
+    border: 1px;
 }
