@@ -10,7 +10,7 @@ include("simplehtmldom_1_5/simple_html_dom.php");
 
 function crawl_data($link) {
     $html = file_get_html($link);
-//    get_link_company($link, $html);
+    get_link_company($link, $html);
     get_link_job($link, $html);
 }
 

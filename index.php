@@ -17,8 +17,8 @@ Time: 11:37 AM-->
 //        set_time_limit(1000);
         include("crawl_data.php");
         include("mysqli.php");
-        include("cron_craw_data.php");
-        //    initial($host, $user, $pass, $dbName);
+        include("cron_crawl_data.php");
+        initial('localhost', 'root', '', 'webitjob');
 
     ?>
     <div id="content">
