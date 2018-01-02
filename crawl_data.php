@@ -11,18 +11,27 @@ include("simplehtmldom_1_5/simple_html_dom.php");
 function crawl_data($link) {
     $html = file_get_html($link);
     get_link_company($link, $html);
-    get_link_job($link, $html);
+//    get_link_job($link, $html);
+    if (strpos($link, 'topitworks') !== false) {
+        get_data_job('https://www.topitworks.com/vi/viec-lam');
+    } elseif (strpos($link, 'itviec') !== false) {
+        get_data_job('https://itviec.com/it-jobs');
+    }
 }
 
 function get_link_company($link, $html) {
     if (strpos($link, 'topitworks') !== false) {
         $company_link = $html->find(
             '.itw_page .navbar .container-fluid div.hidden-xs ul.itw_main_nav li[2] a', 0)->href;
+
+//        Get information about company
         get_data_company($company_link);
     } elseif (strpos($link, 'itviec') !== false) {
         foreach ($html->find('#container div.top-companies div.row div.col-xs-12') as $company) {
             $link_suffix = $company->find('a.top-company', 0)->href;
             $company_link = $link.''.$link_suffix;
+
+//        Get information about company
             get_data_company($company_link);
         }
     }
@@ -33,7 +42,7 @@ function get_data_company($link) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    echo "Connection successfully";
+//    echo "Connection successfully";
     if (strpos($link, 'topitworks') !== false) {
         $company_list = file_get_html($link);
         foreach ($company_list->find(
@@ -42,17 +51,29 @@ function get_data_company($link) {
             $company_logo_link = $company->find('a div.cp-item-detail div.cp-item-banner div.cp-logo span img', 0)->src;
             $company_name = $company->find('a div.cp-item-detail div.cp-company-info h3', 0)->innertext;
             $company_location = $company->find('a div.cp-item-detail div.cp-company-info ul li.ellipsis', 0)->innertext;
+//            echo $company_location;
             $company_job = $company->find('a div.cp-item-detail div.cp-company-info ul li.ellipsis[2]', 0)->innertext;
 
             $conn = new mysqli('localhost', 'root', '','WebITJob');
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            echo "Connection successfully";
-            $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`, `company_job`) 
+//            echo "Connection successfully";
+//            echo avoid_duplicate($company_name, 'company_name', company);
+//            if (avoid_duplicate($company_name, 'company_name', company) == 0) {
+//                $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`, `company_job`)
+//VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link', '$company_job')";
+//                if ($conn->query($sql) === TRUE) {
+//                    echo "New record created successfully";
+//                } else {
+//                    echo "Error: " . $sql . "<br>" . $conn->error;
+//                }
+//                $conn->close();
+//            }
+            $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`, `company_job`)
 VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link', '$company_job')";
             if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
+//                echo "New record created successfully";
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
@@ -66,40 +87,58 @@ VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_li
             'div#container div.company-content div.company-page div.headers div.name-and-info h1.title', 0)->innertext;
         $company_location = $company->find(
             'div#container div.company-content div.company-page div.headers div.name-and-info span', 0)->plaintext;
+//        echo $company_location;
         $company_link = $link;
 
         $conn = new mysqli('localhost', 'root', '','WebITJob');
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        echo "Connection successfully";
+//        echo "Connection successfully";
         $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`) 
 VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link')";
         if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+//            echo "New record created successfully";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
         $conn->close();
 
-        get_data_job($link);
+//        echo "***************link_job**************itviec";
+//        echo $link;
+        // Get information about job
+//        get_data_job($link);
     }
 }
 
-function get_link_job($link, $html) {
-    if (strpos($link, 'topitworks') !== false) {
-        $link_job = $html->find('.itw_page .navbar .hidden-xs ul.nav li.dropdown ul.dropdown-menu li[1] a', 0)->href;
-        get_data_job($link_job);
-    }
-}
+//function get_link_job($link, $html) {
+//    if (strpos($link, 'topitworks') !== false) {
+//        $link_job = $html->find('.itw_page .navbar .hidden-xs ul.nav li.dropdown ul.dropdown-menu li[1] a', 0)->href;
+//
+//        echo "***************link_job**************topitworks";
+//        echo $link_job;
+//        // Get information about job
+//        get_data_job($link_job);
+//    } elseif (strpos($link, 'itviec') !== false) {
+//        $link_job = $html->find('div#pageMenuToggle ul.pageMenu__itemList li.pageMenu__item[1]', 0)->href;
+//        $link_job=$link.''.$link_job;
+//        echo "***************link_job**************itviec";
+//        echo $link_job;
+//
+//        // Get information about job
+//        get_data_job($link_job);
+//    }
+//}
 
 function get_data_job($link) {
     if (strpos($link, 'topitworks') !== false) {
+        echo $link;
         $job_list = file_get_html($link);
+        echo $job_list;
         foreach ($job_list->find('.container #hits .hit') as $a){
             echo $a;
         }
-        foreach ($job_list->find('#hits .hit') as $job) {
+        foreach ($job_list->find('div#hits div.hit') as $job) {
             echo "***********************************";
             echo $job;
             $job_link = $job->find(
@@ -132,7 +171,7 @@ VALUES ('$job_name', '$job_location', '$job_salary', '$job_date', '$job_company'
         }
     } elseif (strpos($link, 'itviec') !== false) {
         $job_list = file_get_html($link);
-        echo $link."<br>";
+//        echo $link."<br>";
         $link_itviec = 'https://itviec.com';
         foreach ($job_list->find(
             'div#container div.company-content div.company-page div.row div.col-xs-12 div.jobs div.panel-body 
@@ -170,4 +209,21 @@ VALUES ('$job_name', '$job_location', '$job_company')";
         }
     }
 }
+
+//function avoid_duplicate($name, $column, $table) {
+//    $conn = new mysqli('localhost', 'root', '','WebITJob');
+//    if ($conn->connect_error) {
+//        die("Connection failed: " . $conn->connect_error);
+//    }
+//    echo "Connection successfully";
+//    $query=mysql_query("SELECT $column IN $table");
+//    $conn->query("SELECT $column IN $table");
+//    while($row_column=mysql_fetch_array($query)){
+//        if ($name == $row_column) {
+//            return 1;
+//        }
+//    }
+//    return 0;
+//    $conn->close();
+//}
 ?>

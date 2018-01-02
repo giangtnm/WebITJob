@@ -10,11 +10,11 @@ function initial($host, $user, $pass, $dbName) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    echo "Connection successfully";
+//    echo "Connection successfully";
     // Create database if it is not exist
     $create_db = "CREATE DATABASE IF NOT EXISTS $dbName";
     if ($conn->query($create_db) === TRUE) {
-        echo "Database created successfully";
+//        echo "Database created successfully";
     } else {
         echo "Error creating database: " . $conn->error;
     }

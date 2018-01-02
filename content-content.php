@@ -5,7 +5,7 @@ Date: 12/28/2017
 Time: 11:37 AM-->
 <div class="tab-content">
     <?php
-        $company="select * from company";
+        $company="select distinct * from company";
         $query_company=mysql_query($company);
     ?>
     <div class="content-item" id="section3">
@@ -29,7 +29,7 @@ Time: 11:37 AM-->
     </div>
 
     <?php
-        $job="select * from job";
+        $job="select distinct * from job";
         $query_job=mysql_query($job);
     ?>
     <div class="content-item" id="section1">
