@@ -15,11 +15,11 @@ Time: 11:37 AM-->
                 ?>
 <!--                <div class="item">-->
                     <div class="company-detail">
-
                         <img src="<?php echo $row_company['company_logo_link']; ?>" style="width: 100px;">
                         <div>
                             Tên công ty: <a href="<?php echo $row_company['company_link']; ?>"><?php echo $row_company['company_name']; ?></a>
-                            <p>Địa chỉ: <?php echo $row_company['address']; ?></p>
+                            <p>Địa chỉ: <?php echo $row_company['company_address']; ?><br/>
+                            Source: <?php echo $row_company['source']; ?></p>
                         </div>
                     </div>
 <!--                </div>-->
@@ -34,16 +34,16 @@ Time: 11:37 AM-->
     ?>
     <div class="content-item" id="section1">
         <h3>Jobs</h3>
-        <div class="job-detail">
-            <p>123abc</p>
-        </div>
         <?php
             while ($row_job=mysql_fetch_array($query_job)) {
                 ?>
 <!--                <div class="item">-->
                     <div class="job-detail">
-                        <h3>Job</h3>
-                        <p>abc123</p>
+                        <div>
+                            Tên công việc: <a href="<?php echo $row_job['job_link']; ?>"><?php echo $row_job['title']; ?></a>
+                            <p>Địa chỉ: <?php echo $row_job['address']; ?><br/>
+                            Source: <?php echo $row_job['source']; ?></p>
+                        </div>
                     </div>
 <!--                </div>-->
                 <?php

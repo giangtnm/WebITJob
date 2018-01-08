@@ -1,229 +1,163 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: giangtnm
- * Date: 12/7/17
- * Time: 2:18 PM
+ * User: Giang Thai
+ * Date: 1/8/2018
+ * Time: 4:57 AM
  */
-include("PHPCrawl/libs/PHPCrawler.class.php");
 include("simplehtmldom_1_5/simple_html_dom.php");
 
-function crawl_data($link) {
+function crawl_data($link)
+{
+    if (strpos($link, 'topitworks') !== false)
+        get_data_companies_topitworks($link);
+    elseif (strpos($link, 'itviec') !== false)
+        get_data_company_itviec($link);
+}
+
+function get_data_company_itviec($link)
+{
     $html = file_get_html($link);
-    get_link_company($link, $html);
-//    get_link_job($link, $html);
-    if (strpos($link, 'topitworks') !== false) {
-        get_data_job('https://www.topitworks.com/vi/viec-lam');
-    } elseif (strpos($link, 'itviec') !== false) {
-        get_data_job('https://itviec.com/it-jobs');
+
+    foreach ($html->find('#container div.top-companies div.row div.col-xs-12') as $company) {
+        $link_suffix = $company->find('a.top-company', 0)->href;
+        $company_link = $link.''.$link_suffix;
+
+        //delete suffix "?track_action=Click+Hiring"
+        $company_link = substr($company_link, 0, strpos($company_link, "?"));
+
+        //Get information about company
+        get_info_company_itviec($company_link);
+        get_info_job_from_company_itviec($company_link);
     }
 }
 
-function get_link_company($link, $html) {
-    if (strpos($link, 'topitworks') !== false) {
-        $company_link = $html->find(
-            '.itw_page .navbar .container-fluid div.hidden-xs ul.itw_main_nav li[2] a', 0)->href;
+function get_info_company_itviec($link)
+{
+    $html = file_get_html($link);
 
-//        Get information about company
-        get_data_company($company_link);
-    } elseif (strpos($link, 'itviec') !== false) {
-        foreach ($html->find('#container div.top-companies div.row div.col-xs-12') as $company) {
-            $link_suffix = $company->find('a.top-company', 0)->href;
-            $company_link = $link.''.$link_suffix;
+    $company_logo_link = $html->find(
+        '#container div.company-content div.company-page div.headers div.logo-container div.logo img', 0)->src;
 
-//        Get information about company
-            get_data_company($company_link);
-        }
-    }
+    $company_name = $html->find(
+        '#container div.company-content div.company-page div.headers div.name-and-info h1', 0)->plaintext;
+
+    $company_address = $html->find(
+        '#container div.company-content div.company-page div.headers div.name-and-info span', 0)->plaintext;
+
+    $company_source = "itviec";
+
+    $conn = new mysqli('localhost', 'root', '', 'webitjob');
+    if ($conn->connect_error)
+        die("Connection failed: ".$conn->connect_error);
+
+    $sql = "INSERT INTO `company` (`company_name`, `company_address`, `company_logo_link`, `company_link`, `source`)
+VALUES ('$company_name', '$company_address', '$company_logo_link', '$link', '$company_source')";
+    $conn->query($sql);
+    $conn->close();
 }
 
-function get_data_company($link) {
-    $conn = new mysqli('localhost', 'root', '','WebITJob');
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-//    echo "Connection successfully";
-    if (strpos($link, 'topitworks') !== false) {
-        $company_list = file_get_html($link);
-        foreach ($company_list->find(
-            'div#ajaxlistcompany div.companies-items div.row ul#company-profile-list li.col-xs-12') as $company) {
-            $company_link = $company->find('a', 0)->href;
-            $company_logo_link = $company->find('a div.cp-item-detail div.cp-item-banner div.cp-logo span img', 0)->src;
-            $company_name = $company->find('a div.cp-item-detail div.cp-company-info h3', 0)->innertext;
-            $company_location = $company->find('a div.cp-item-detail div.cp-company-info ul li.ellipsis', 0)->innertext;
-//            echo $company_location;
-            $company_job = $company->find('a div.cp-item-detail div.cp-company-info ul li.ellipsis[2]', 0)->innertext;
+function get_info_job_from_company_itviec($link)
+{
+    $html = file_get_html($link);
 
-            $conn = new mysqli('localhost', 'root', '','WebITJob');
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-//            echo "Connection successfully";
-//            echo avoid_duplicate($company_name, 'company_name', company);
-//            if (avoid_duplicate($company_name, 'company_name', company) == 0) {
-//                $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`, `company_job`)
-//VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link', '$company_job')";
-//                if ($conn->query($sql) === TRUE) {
-//                    echo "New record created successfully";
-//                } else {
-//                    echo "Error: " . $sql . "<br>" . $conn->error;
-//                }
-//                $conn->close();
-//            }
-            $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`, `company_job`)
-VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link', '$company_job')";
-            if ($conn->query($sql) === TRUE) {
-//                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-            $conn->close();
-        }
-    } elseif (strpos($link, 'itviec') !== false) {
-        $company = file_get_html($link);
-        $company_logo_link = $company->find(
-            'div#container div.company-content div.company-page div.headers div.logo-container div.logo img', 0)->src;
-        $company_name = $company->find(
-            'div#container div.company-content div.company-page div.headers div.name-and-info h1.title', 0)->innertext;
-        $company_location = $company->find(
-            'div#container div.company-content div.company-page div.headers div.name-and-info span', 0)->plaintext;
-//        echo $company_location;
-        $company_link = $link;
+    $company_name = $html->find(
+        '#container div.company-content div.company-page div.headers div.name-and-info h1', 0)->plaintext;
 
-        $conn = new mysqli('localhost', 'root', '','WebITJob');
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-//        echo "Connection successfully";
-        $sql = "INSERT INTO `company` (`company_name`, `address`, `company_logo_link`, `company_link`) 
-VALUES ('$company_name', '$company_location', '$company_logo_link', '$company_link')";
-        if ($conn->query($sql) === TRUE) {
-//            echo "New record created successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+    foreach ($html->find(
+        '#container div.company-content div.company-page div.company-container div.col-md-8 div.jobs div.panel-body div.job') as $job) {
+        $job_link = $job->find('div.job_content div.job__description div.job__body div.details h4.title a', 0)->href;
+        $job_link = "https://itviec.com".''.$job_link;
+
+        $job_name = $job->find('div.job_content div.job__description div.job__body div.details h4.title a', 0)->plaintext;
+
+        $job_address = $job->find('div.job_content div.city_and_posted_date div.city div.address div.text', 0)->plaintext;
+        if ($job->find('div.job_content div.city_and_posted_date div.city div.address div.other-address', 0)->plaintext)
+            $job_address2 = $job->find('div.job_content div.city_and_posted_date div.city div.address div.other-address', 0)->plaintext;
+        if ($job_address2)
+            $job_address = $job_address2.'- '.$job_address;
+
+        $job_source = "itviec";
+
+        $conn = new mysqli('localhost', 'root', '', 'webitjob');
+        if ($conn->connect_error)
+            die("Connection failed: ".$conn->connect_error);
+
+        $sql = "INSERT INTO `job` (`title`, `address`, `job_link`, `source`, `company_name`) 
+VALUES ('$job_name', '$job_address', '$job_link', '$job_source', '$company_name')";
+        $conn->query($sql);
         $conn->close();
-
-//        echo "***************link_job**************itviec";
-//        echo $link;
-        // Get information about job
-//        get_data_job($link);
     }
 }
 
-//function get_link_job($link, $html) {
-//    if (strpos($link, 'topitworks') !== false) {
-//        $link_job = $html->find('.itw_page .navbar .hidden-xs ul.nav li.dropdown ul.dropdown-menu li[1] a', 0)->href;
-//
-//        echo "***************link_job**************topitworks";
-//        echo $link_job;
-//        // Get information about job
-//        get_data_job($link_job);
-//    } elseif (strpos($link, 'itviec') !== false) {
-//        $link_job = $html->find('div#pageMenuToggle ul.pageMenu__itemList li.pageMenu__item[1]', 0)->href;
-//        $link_job=$link.''.$link_job;
-//        echo "***************link_job**************itviec";
-//        echo $link_job;
-//
-//        // Get information about job
-//        get_data_job($link_job);
-//    }
-//}
+function get_data_companies_topitworks($link)
+{
+    $html = file_get_html($link);
 
-function get_data_job($link) {
-    if (strpos($link, 'topitworks') !== false) {
-        echo $link;
-        $job_list = file_get_html($link);
-        echo $job_list;
-        foreach ($job_list->find('.container #hits .hit') as $a){
-            echo $a;
-        }
-        foreach ($job_list->find('div#hits div.hit') as $job) {
-            echo "***********************************";
-            echo $job;
-            $job_link = $job->find(
-                'div.hit-content div.row div.col-xs-12 div.row div.job-basic-detail h4.hit-name a', 0)->href;
-            $job_name = $job->find(
-                'div.hit-content div.row div.col-xs-12 div.row div.job-basic-detail h4.hit-name a', 0)->innertext;
-            $job_company = $job->find(
-                'div.hit-content div.row div.col-xs-12 div.row div.job-basic-detail h4.hit-company', 0)->innertext;
-            $job_location = $job->find(
-                'div.hit-content div.row div.col-xs-12 div.row div.job-basic-detail h4.hit-company
-                span.location-label span.result-label', 0)->innertext;
-            $job_salary = $job->find(
-                'div.hit-content div.row div.col-xs-12 div.row div.col-md-3 div.hit-salary', 0)->innertext;
-            $job_date = $job->find(
-                'div.hit-content div.row div.col-xs-12 div.row div.col-md-3 div.hit-date-posting', 0)->innertext;
+    $companies_link = $html->find('.itw_page .navbar .container-fluid div.hidden-xs ul.itw_main_nav li[2] a', 0)->href;
+    get_data_company_topitworks($companies_link);
+}
 
-            $conn = new mysqli('localhost', 'root', '','WebITJob');
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            echo "Connection successfully";
-            $sql = "INSERT INTO `job` (`title`, `address`, `salary`, `time_posted`, `company_name`) 
-VALUES ('$job_name', '$job_location', '$job_salary', '$job_date', '$job_company')";
-            if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-            $conn->close();
-        }
-    } elseif (strpos($link, 'itviec') !== false) {
-        $job_list = file_get_html($link);
-//        echo $link."<br>";
-        $link_itviec = 'https://itviec.com';
-        foreach ($job_list->find(
-            'div#container div.company-content div.company-page div.row div.col-xs-12 div.jobs div.panel-body 
-            div.job') as $job) {
-            $job_company_logo = $job->find('div.job_content div.logo div.logo-wrapper a img', 0)->src;
-            $job_name = $job->find('div.job_content div.job__description div.job__body div.details h4.title a', 0)->innertext;
-            $job_link_suffix = $job->find('div.job_content div.job__description div.job__body div.details h4.title a', 0)->href;
-            $job_link = $link_itviec.''.$job_link_suffix;
-            $job_company = $job_list->find(
-                'div#container div.company-content div.company-page div.headers div.name-and-info h1.title', 0)->innertext;
-            $job_location_city = $job->find('div.job_content div.job__description div.job__body div.city_and_posted_date 
-            div.city div.address div.text[1]', 0)->innertext;
-            $job_location_street = $job->find('div.job_content div.job__description div.job__body div.city_and_posted_date 
-            div.city div.address div.text[2]', 0)->innertext;
-            $job_location = $job_location_street.''.$job_location_city;
-            $job_description = '';
-            foreach ($job->find('div.job_content div.job__description div.job-bottom div.tag-list a') as $details_job) {
-                $detail = $details_job->find('span', 0)->innertext;
-                $job_description = $job_description.' '.$detail.'|';
-            }
-
-            $conn = new mysqli('localhost', 'root', '','WebITJob');
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-            echo "Connection successfully";
-            $sql = "INSERT INTO `job` (`title`, `address`, `company_name`) 
-VALUES ('$job_name', '$job_location', '$job_company')";
-            if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-            $conn->close();
-        }
+function get_data_company_topitworks($link)
+{
+    $html = file_get_html($link);
+    foreach ($html->find('ul#company-profile-list li.col-xs-12') as $company) {
+        $company_link = $company->find('a', 0)->href;
+        get_info_company_topitworks($company_link);
+        get_info_job_from_company_topitworks($company_link);
     }
 }
 
-//function avoid_duplicate($name, $column, $table) {
-//    $conn = new mysqli('localhost', 'root', '','WebITJob');
-//    if ($conn->connect_error) {
-//        die("Connection failed: " . $conn->connect_error);
-//    }
-//    echo "Connection successfully";
-//    $query=mysql_query("SELECT $column IN $table");
-//    $conn->query("SELECT $column IN $table");
-//    while($row_column=mysql_fetch_array($query)){
-//        if ($name == $row_column) {
-//            return 1;
-//        }
-//    }
-//    return 0;
-//    $conn->close();
-//}
-?>
+function get_info_company_topitworks($link)
+{
+    $html = file_get_html($link);
+
+    $company_name = $html->find('h2#cp_company_name', 0)->plaintext;
+
+    $company_logo_link = $html->find('div.container div.row div.cp_logo div img', 0)->src;
+
+    $company_address = $html->find('div.container div.row div.cp_basic_info_details ul li span', 0)->title;
+
+    $company_link = $html->find('div.container div.row div.cp_basic_info_details ul li a.website-company', 0)->href;
+
+    $company_source = "topitworks";
+
+    $conn = new mysqli('localhost', 'root', '', 'webitjob');
+    if ($conn->connect_error)
+        die("Connection failed: ".$conn->connect_error);
+
+    $sql = "INSERT INTO `company` (`company_name`, `company_address`, `company_logo_link`, `company_link`, `source`)
+VALUES ('$company_name', '$company_address', '$company_logo_link', '$company_link', '$company_source')";
+    $conn->query($sql);
+    $conn->close();
+}
+
+function get_info_job_from_company_topitworks($link)
+{
+    $html = file_get_html($link);
+
+    $company_name = $html->find('h2#cp_company_name', 0)->plaintext;
+
+    foreach ($html->find('div#ajax_cp_our_jobs_listing div.jobs_listing_block div.cp_our_job_item') as $job)
+    {
+        $job_link = $job->find('div.rơ div.cp_Job_summary_info h4 a', 0)->href;
+
+        $job_name = $job->find('div.rơ div.cp_Job_summary_info h4 a', 0)->plaintext;
+
+        $job_address = $job->find('div.rơ div.cp_Job_summary_info ul li', 1)->plaintext;
+
+        //Delete spaces before and after address
+        $job_address = preg_replace('/\s+/', '', $job_address);
+
+        $job_source = "topitworks";
+
+        $conn = new mysqli('localhost', 'root', '', 'webitjob');
+        if ($conn->connect_error)
+            die("Connection failed: ".$conn->connect_error);
+
+        $sql = "INSERT INTO `job` (`title`, `address`, `job_link`, `source`, `company_name`) 
+VALUES ('$job_name', '$job_address', '$job_link', '$job_source', '$company_name')";
+        $conn->query($sql);
+        $conn->close();
+    }
+}
