@@ -15,11 +15,11 @@
             <div class="menu_block">
                 <nav>
 <!--                    <ul class="sf-menu">-->
-                        <form action="search.php" method="post" enctype="multipart/form-data" id="search">
-                            <input class="input" name="searchtext" type="text" placeholder="Search..."
-                                   style="left: 500px; top: -5px">
-                            <button name="search" id="btn-search"><i class="icon-search"></i></button>
-                        </form>
+<!--                        <form action="search.php" method="post" enctype="multipart/form-data" id="search">-->
+<!--                            <input class="input" name="searchtext" type="text" placeholder="Search..."-->
+<!--                                   style="left: 500px; top: -5px">-->
+<!--                            <button name="search" id="btn-search"><i class="icon-search"></i></button>-->
+<!--                        </form>-->
 <!--                        <li class="current">-->
 <!--                            <a href="index.php">HOME</a>-->
 <!--                        </li>-->
