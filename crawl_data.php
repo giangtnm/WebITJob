@@ -50,6 +50,7 @@ function get_info_company_itviec($link)
     $conn = new mysqli('localhost', 'root', '', 'webitjob');
     if ($conn->connect_error)
         die("Connection failed: ".$conn->connect_error);
+    mysqli_set_charset($conn,"utf8");
 
     $sql = "INSERT INTO `company` (`company_name`, `company_address`, `company_logo_link`, `company_link`, `source`)
 VALUES ('$company_name', '$company_address', '$company_logo_link', '$link', '$company_source')";
@@ -82,6 +83,7 @@ function get_info_job_from_company_itviec($link)
         $conn = new mysqli('localhost', 'root', '', 'webitjob');
         if ($conn->connect_error)
             die("Connection failed: ".$conn->connect_error);
+        mysqli_set_charset($conn,"utf8");
 
         $sql = "INSERT INTO `job` (`title`, `address`, `job_link`, `source`, `company_name`) 
 VALUES ('$job_name', '$job_address', '$job_link', '$job_source', '$company_name')";
@@ -125,6 +127,7 @@ function get_info_company_topitworks($link)
     $conn = new mysqli('localhost', 'root', '', 'webitjob');
     if ($conn->connect_error)
         die("Connection failed: ".$conn->connect_error);
+    mysqli_set_charset($conn,"utf8");
 
     $sql = "INSERT INTO `company` (`company_name`, `company_address`, `company_logo_link`, `company_link`, `source`)
 VALUES ('$company_name', '$company_address', '$company_logo_link', '$company_link', '$company_source')";
@@ -141,19 +144,21 @@ function get_info_job_from_company_topitworks($link)
     foreach ($html->find('div#ajax_cp_our_jobs_listing div.jobs_listing_block div.cp_our_job_item') as $job)
     {
         $job_link = $job->find('div.rơ div.cp_Job_summary_info h4 a', 0)->href;
+        $job_link = substr($job_link, 0, strpos($job_link, "?"));
 
         $job_name = $job->find('div.rơ div.cp_Job_summary_info h4 a', 0)->plaintext;
 
         $job_address = $job->find('div.rơ div.cp_Job_summary_info ul li', 1)->plaintext;
 
-        //Delete spaces before and after address
-        $job_address = preg_replace('/\s+/', '', $job_address);
+        //Delete all spaces
+        //$job_address = preg_replace('/\s+/', '', $job_address);
 
         $job_source = "topitworks";
 
         $conn = new mysqli('localhost', 'root', '', 'webitjob');
         if ($conn->connect_error)
             die("Connection failed: ".$conn->connect_error);
+        mysqli_set_charset($conn,"utf8");
 
         $sql = "INSERT INTO `job` (`title`, `address`, `job_link`, `source`, `company_name`) 
 VALUES ('$job_name', '$job_address', '$job_link', '$job_source', '$company_name')";

@@ -10,7 +10,7 @@
     $pass = '';
     $dbName = 'webitjob';
 
-    $conn = mysql_connect($host, $user, $pass, $dbName) or die ("Can't connect to database");
-    mysql_select_db($dbName, $conn);
-    mysql_set_charset('utf8', $conn);
+    $conn = mysqli_connect($host, $user, $pass, $dbName) or die ("Can't connect to database");
+    mysqli_select_db($conn, $dbName);
+    mysqli_set_charset($conn,"utf8");
 ?>
