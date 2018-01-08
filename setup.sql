@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS `job` (
   `address` VARCHAR(500) COLLATE utf8_unicode_ci,
   `job_link` TEXT,
   `source` TEXT,
-  `company_name` VARCHAR(250) COLLATE utf8_unicode_ci,
+  `company_name` VARCHAR(250) COLLATE utf8_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
