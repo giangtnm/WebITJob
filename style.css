@@ -1,104 +1,110 @@
 #header{
-    background-color: #0e8209;
+  background-color: #e2d571;
+  height: 175px;
 }
 
 .input{
-    float: left;
-    width: 350px;
-    margin-left: 8px;
-    padding-top: 3px;
-    border: 1;
-    position: relative;
-    background: #fff;
-    height: 30px;
-    text-indent: 10px;
-    font-size: 13px;
+  float: left;
+  width: 350px;
+  margin-left: 8px;
+  padding-top: 3px;
+  position: relative;
+  background: #fff;
+  height: 30px;
+  text-indent: 10px;
+  font-size: 13px;
+  height: 43px;
 }
 
 .btn{
-    float: right;
-    width: 40px;
-    height: 35px;
-    border: 0;
-    background: white;
-    padding: 0;
+  float: right;
+  width: 40px;
+  height: 35px;
+  border: 0;
+  background: white;
+  padding: 0;
 }
 
 #btn-search{
-    margin-top: -4px;
-    margin-left: 517px;
-    padding-top: 3px;
-    position: relative;
-    background: #fff;
-    height: 30px;
-    text-indent: 10px;
-    font-size: 13px;
+  margin-top: -4px;
+  margin-left: 517px;
+  padding-top: 3px;
+  position: relative;
+  background: #fff;
+  text-indent: 10px;
+  font-size: 13px;
+  top: -43px;
+  right: -259px;
+  text-align: match-parent;
+  width: 110px;
+  height: 43px;
+  vertical-align: middle;
 }
 
 .clear {
-    float: none !important;
-    clear: both;
+  float: none !important;
+  clear: both;
 }
 
 .icon-search{
-    background-image: url(images/icon_search.png);
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-    background-size: 100% auto;
+  background-image: url(images/icon_search.png);
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-size: 100% auto;
 }
 
 .content{
-    display: block;
-    overflow: hidden;
-    width: 100%;
-    height: auto;
-    border: 1px solid #000;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  border: 1px solid #000;
 }
 
 .container_12 {
-    margin-left: auto;
-    margin-right: auto;
-    width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
 }
 
 .grid_12 {
-    display: inline;
-    float: left;
-    margin-left: 10px;
-    margin-right: 10px;
+  display: inline;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .container_12 .grid_12 {
-    width: 940px;
+  width: auto;
 }
 
 .content-item{
-    width: 975px;
-    margin-top: 15px;
+  width: 975px;
+  margin-top: 15px;
 }
 
 .content{
-    border: 0 !important;
+  border: 0 !important;
 }
 
 .company-detail{
-    border: 1px;
+  border: 1px;
 }
 
 #section3{
-    margin-left: 20px;
-    width: 50%;
-    float: left;
+  margin-left: 20px;
+  width: 50%;
+  float: left;
 }
 
 #section1{
-    position: absolute;
-    left: 50%;
-    width: 50%;
-    float: right;
+  position: absolute;
+  left: 50%;
+  width: 50%;
+  float: right;
 }
 .job-detail{
-    margin-right: 20px;
-    border: 1px;
+  margin-right: 20px;
+  border: 1px;
 }

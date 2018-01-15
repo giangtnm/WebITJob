@@ -15,6 +15,7 @@ Time: 11:37 AM-->
 <body>
 <div id="content">
     <?php
+    include("header.php");
     include("config.php");
     include("content.php");
     ?>

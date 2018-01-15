@@ -14,16 +14,21 @@
                 </a></h1>
             <div class="menu_block">
                 <nav>
-<!--                    <ul class="sf-menu">-->
-<!--                        <form action="search.php" method="post" enctype="multipart/form-data" id="search">-->
-<!--                            <input class="input" name="searchtext" type="text" placeholder="Search..."-->
-<!--                                   style="left: 500px; top: -5px">-->
-<!--                            <button name="search" id="btn-search"><i class="icon-search"></i></button>-->
-<!--                        </form>-->
-<!--                        <li class="current">-->
-<!--                            <a href="index.php">HOME</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
+                    <ul class="sf-menu">
+                        <li class="current">
+                            <a href="index.php">HOME</a>
+                        </li>
+                        <form action="search_job.php" method="post" enctype="multipart/form-data" id="search">
+                            <input class="input" name="searchtext" type="text" placeholder="Tìm tên công việc..."
+                                   style="left: 400px; top: -5px">
+                            <button name="search" id="btn-search"><i class="icon-search"></i>Job</button>
+                        </form>
+                        <form action="search_company.php" method="post" enctype="multipart/form-data" id="search">
+                            <input class="input" name="searchtext" type="text" placeholder="Tìm tên công ty..."
+                                   style="left: 400px; top: -5px">
+                            <button name="search" id="btn-search"><i class="icon-search"></i>Company</button>
+                        </form>
+                    </ul>
                 </nav>
                 <div class="clear"></div>
             </div>
