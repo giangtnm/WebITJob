@@ -13,11 +13,11 @@ Time: 11:37 AM-->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="content">
-        <?php
-            include("config.php");
-            include("content.php");
-        ?>
-    </div>
+<div id="content">
+    <?php
+    include("config.php");
+    include("content.php");
+    ?>
+</div>
 </body>
 </html>
