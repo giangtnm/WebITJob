@@ -41,9 +41,11 @@ function get_info_company_itviec($link)
 
     $company_name = $html->find(
         '#container div.company-content div.company-page div.headers div.name-and-info h1', 0)->plaintext;
+    $company_name = trim($company_name);
 
     $company_address = $html->find(
         '#container div.company-content div.company-page div.headers div.name-and-info span', 0)->plaintext;
+    $company_address = trim($company_address);
 
     $company_source = "itviec";
 
