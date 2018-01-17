@@ -70,6 +70,8 @@ function get_info_job_from_company_itviec($link)
 
     $company_name = $html->find(
         '#container div.company-content div.company-page div.headers div.name-and-info h1', 0)->plaintext;
+    //Delete spaces before and after text
+    $company_name = trim($company_name);
 
     foreach ($html->find(
         '#container div.company-content div.company-page div.company-container div.col-md-8 div.jobs div.panel-body div.job') as $job)
@@ -84,6 +86,8 @@ function get_info_job_from_company_itviec($link)
             $job_address2 = $job->find('div.job_content div.city_and_posted_date div.city div.address div.other-address', 0)->plaintext;
         if ($job_address2)
             $job_address = $job_address2.'- '.$job_address;
+        //Delete spaces before and after text
+        $job_address = trim($job_address);
 
         $job_source = "itviec";
 
@@ -158,6 +162,7 @@ function get_info_job_from_company_topitworks($link)
         $job_name = $job->find('div.rơ div.cp_Job_summary_info h4 a', 0)->plaintext;
 
         $job_address = $job->find('div.rơ div.cp_Job_summary_info ul li', 1)->plaintext;
+        $job_address = trim($job_address);
 
         //Delete all spaces
         //$job_address = preg_replace('/\s+/', '', $job_address);
