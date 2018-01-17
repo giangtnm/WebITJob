@@ -32,25 +32,30 @@ if(isset($_POST['search']))
 include("header.php");
 ?>
 <div class="content1 page">
+    <div class="clear"></div>
     <div class="container_12">
         <?php
-        if($count=mysqli_num_rows($query_search)==0 || $search==''){
+        if($count=mysqli_num_rows($query_search)==0 || $search=='')
+        {
         ?>
-        <p>Không tìm thấy công ty nào</p>
+            <p>Không tìm thấy công ty nào</p>
         <?php
-        }else{
+        }
+        else
+        {
         ?>
-        <?php
-        while($dong_search=mysqli_fetch_array($query_search)){
-        ?>
-            <div class="company-detail">
-                <img src="<?php echo $dong_search['company_logo_link']; ?>" style="width: 100px;">
-                <div>
-                    Tên công ty: <a href="<?php echo $dong_search['company_link']; ?>"><?php echo $dong_search['company_name']; ?></a>
-                    <p> Địa chỉ: <?php echo $dong_search['company_address']; ?><br/>
-                        Source: <?php echo $dong_search['source']; ?></p>
+            <?php
+            while($dong_search=mysqli_fetch_array($query_search))
+            {
+            ?>
+                <div class="company-detail">
+                    <img src="<?php echo $dong_search['company_logo_link']; ?>" style="width: 100px;">
+                    <div>
+                        Tên công ty: <a href="<?php echo $dong_search['company_link']; ?>"><?php echo $dong_search['company_name']; ?></a>
+                        <p> Địa chỉ: <?php echo $dong_search['company_address']; ?><br/>
+                            Source: <?php echo $dong_search['source']; ?></p>
+                    </div>
                 </div>
-            </div>
             <?php
             }
         }

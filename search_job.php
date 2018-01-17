@@ -32,17 +32,22 @@ if(isset($_POST['search']))
 include("header.php");
 ?>
 <div class="content1 page">
+    <div class="clear"></div>
     <div class="container_12">
         <?php
-        if($count=mysqli_num_rows($query_search)==0 || $search==''){
+        if($count=mysqli_num_rows($query_search)==0 || $search=='')
+        {
         ?>
-        <p>Không tìm thấy công việc nào</p>
+            <p>Không tìm thấy công việc nào</p>
         <?php
-        }else{
+        }
+        else
+        {
         ?>
-        <?php
-        while($dong_search=mysqli_fetch_array($query_search)){
-        ?>
+            <?php
+            while($dong_search=mysqli_fetch_array($query_search))
+            {
+            ?>
             <div class="job-detail">
                 <div>
                     Tên công việc: <a href="<?php echo $dong_search['job_link']; ?>"><?php echo $dong_search['title']; ?></a>

@@ -19,7 +19,8 @@ function get_data_company_itviec($link)
 {
     $html = file_get_html($link);
 
-    foreach ($html->find('#container div.top-companies div.row div.col-xs-12') as $company) {
+    foreach ($html->find('#container div.top-companies div.row div.col-xs-12') as $company)
+    {
         $link_suffix = $company->find('a.top-company', 0)->href;
         $company_link = $link.''.$link_suffix;
 
@@ -41,10 +42,12 @@ function get_info_company_itviec($link)
 
     $company_name = $html->find(
         '#container div.company-content div.company-page div.headers div.name-and-info h1', 0)->plaintext;
+    //Delete spaces before and after text
     $company_name = trim($company_name);
 
     $company_address = $html->find(
         '#container div.company-content div.company-page div.headers div.name-and-info span', 0)->plaintext;
+    //Delete spaces before and after text
     $company_address = trim($company_address);
 
     $company_source = "itviec";
@@ -56,6 +59,7 @@ function get_info_company_itviec($link)
 
     $sql = "INSERT INTO `company` (`company_name`, `company_address`, `company_logo_link`, `company_link`, `source`)
 VALUES ('$company_name', '$company_address', '$company_logo_link', '$link', '$company_source')";
+
     $conn->query($sql);
     $conn->close();
 }
@@ -68,7 +72,8 @@ function get_info_job_from_company_itviec($link)
         '#container div.company-content div.company-page div.headers div.name-and-info h1', 0)->plaintext;
 
     foreach ($html->find(
-        '#container div.company-content div.company-page div.company-container div.col-md-8 div.jobs div.panel-body div.job') as $job) {
+        '#container div.company-content div.company-page div.company-container div.col-md-8 div.jobs div.panel-body div.job') as $job)
+    {
         $job_link = $job->find('div.job_content div.job__description div.job__body div.details h4.title a', 0)->href;
         $job_link = "https://itviec.com".''.$job_link;
 
@@ -89,6 +94,7 @@ function get_info_job_from_company_itviec($link)
 
         $sql = "INSERT INTO `job` (`title`, `address`, `job_link`, `source`, `company_name`) 
 VALUES ('$job_name', '$job_address', '$job_link', '$job_source', '$company_name')";
+
         $conn->query($sql);
         $conn->close();
     }
@@ -105,7 +111,8 @@ function get_data_companies_topitworks($link)
 function get_data_company_topitworks($link)
 {
     $html = file_get_html($link);
-    foreach ($html->find('ul#company-profile-list li.col-xs-12') as $company) {
+    foreach ($html->find('ul#company-profile-list li.col-xs-12') as $company)
+    {
         $company_link = $company->find('a', 0)->href;
         get_info_company_topitworks($company_link);
         get_info_job_from_company_topitworks($company_link);
