@@ -14,4 +14,6 @@ CREATE TABLE IF NOT EXISTS `job` (
   `job_link` TEXT,
   `source` TEXT,
   `company_name` VARCHAR(250) COLLATE utf8_unicode_ci
+--   `company_name` VARCHAR(250) COLLATE utf8_unicode_ci REFERENCES company (company_name)
+--   must references to primary key
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

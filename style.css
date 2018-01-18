@@ -90,6 +90,7 @@
 
 .company-detail{
   border: 1px;
+  /*border-block-end-style: dashed;*/
 }
 
 #section3{
@@ -106,5 +107,7 @@
 }
 .job-detail{
   margin-right: 20px;
-  border: 1px;
+  border-block-end-style: dotted;
+  /*border: 1px solid black;*/
+  margin-bottom: 5px;
 }
